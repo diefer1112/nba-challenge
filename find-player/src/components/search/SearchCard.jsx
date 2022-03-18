@@ -2,7 +2,6 @@ import React from 'react'
 
 export const SearchCard = (
     {
-        id,
         firstName,
         hInch,
         hMeters,

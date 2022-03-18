@@ -20,7 +20,6 @@ export const SearchList = memo(({ querySearch }) => {
                 (
                     SearchPlayer.map((search, index) => (
                         <SearchCard key={index}
-                            id={index}
                             firstName={search.first_name}
                             hInch={search.h_in}
                             hMeters={search.h_meters}
