@@ -34,7 +34,7 @@ export class ExternalNbaService {
 
         });
 
-        return newValues.length > 0 ? newValues : emptySearch;
+        return newValues.length > 0 ? newValues : values;
     }
 
     stature() {

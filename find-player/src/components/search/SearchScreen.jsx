@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import * as axios from 'axios';
 import { useForm } from '../../hooks/useForm';
+import { SearchList } from './SearchList';
 
-const baseURL = 'http://127.0.0.1:4000/nba/typeStature';
+const baseURLPick = 'http://127.0.0.1:4000/nba/typeStature';
+
 
 export const SearchScreen = () => {
 
   const [Stature, setStature] = useState(null);
-  //const [SelectedOption, setSelectedOption] = useState({ value: '', label: '' });
+  const [BodyQuery, setBodyQuery] = useState({})
 
   const [formValue, handleInputChange] = useForm({
     typeMeasurement: { value: '0', label: 'inch' },
@@ -18,7 +20,7 @@ export const SearchScreen = () => {
   const { value, typeMeasurement } = formValue;
 
   useEffect(() => {
-    axios.get(baseURL).then((response) => {
+    axios.get(baseURLPick).then((response) => {
       setStature(response.data);
       console.log('Height type picker from backend...');
     });
@@ -26,7 +28,10 @@ export const SearchScreen = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log(value, typeMeasurement);
+    setBodyQuery({
+      typeMeasurement: parseInt(typeMeasurement.value), 
+      value
+    })
   }
 
   return (
@@ -73,6 +78,14 @@ export const SearchScreen = () => {
           }
 
 
+        </div>
+
+        <div className="col-5">
+          {
+            (Object.keys(BodyQuery).length) > 0 && (
+              <SearchList querySearch={BodyQuery} />
+            )
+          }
         </div>
       </div>
     </>
