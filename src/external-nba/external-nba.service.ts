@@ -13,6 +13,12 @@ export class ExternalNbaService {
 
     async findHeight(query: PlayerHeightQuery): Promise<PlayerNba[]> {
         const { values }: { values: PlayerNba[] } = await (await fetch('https://mach-eight.uc.r.appspot.com/')).json();
+        const emptySearch = [{
+            "first_name": "",
+            "h_in": "",
+            "h_meters": "",
+            "last_name": ""
+        }];
 
         const newValues = values.filter(player => {
 
@@ -21,19 +27,17 @@ export class ExternalNbaService {
                     return player.h_in === query.value;
 
                 case typeStature.meter:
-                    return player.h_meters.replace('.', '') === query.value;
+                    return player.h_meters.replace('.', '') === query.value.replace('.', '');
                 default:
-                    return {}
+                    return emptySearch
             }
 
         });
 
-        return newValues;
+        return newValues.length > 0 ? newValues : emptySearch;
     }
 
     stature() {
-        return {
-            ...typeStature
-        }
+        return [{ value:`${typeStature.inch}`, label: 'inch'}, {value:`${typeStature.meter}`, label:'meter'}]
     }
 }

@@ -5,6 +5,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import compression from 'fastify-compress';
+import * as cors from 'cors';
 
 
 async function bootstrap() {
@@ -13,7 +14,8 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
   app.register(compression, { encodings: ['gzip', 'deflate'] });
-  await app.listen(3000);
+  app.use(cors());
+  await app.listen(4000);
 }
 
 bootstrap();
